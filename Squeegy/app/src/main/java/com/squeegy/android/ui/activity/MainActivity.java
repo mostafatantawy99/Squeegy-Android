@@ -1,4 +1,4 @@
-package com.squeegy.android;
+package com.squeegy.android.ui.activity;
 
 import android.content.Intent;
 import android.location.Geocoder;
@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squeegy.android.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,12 +63,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        buildGoogleApiClient();
 
         mFragmentManager=getSupportFragmentManager();
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
