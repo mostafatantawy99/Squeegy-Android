@@ -47,8 +47,13 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View view=inflater.inflate(R.layout.fragment_home,container,false);
+
         mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        buildGoogleApiClient();
+
+        return view;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        buildGoogleApiClient();
+
     }
 
     @Override
@@ -135,7 +140,7 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
      */
     protected synchronized void buildGoogleApiClient() {
 
-        new GoogleApiClient.Builder(getActivity().getApplicationContext())
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplicationContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)

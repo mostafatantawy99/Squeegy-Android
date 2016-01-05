@@ -7,6 +7,11 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Profile" />
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Near By"
+            android:checked="true"/>
+        <item
             android:id="@+id/nav_vi"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Vehical Information" />
