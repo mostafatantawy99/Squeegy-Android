@@ -2,10 +2,10 @@
 <resources>
 
     <string name="isStaging">true</string>
-    <string name="api_key">12345678</string>
+    <string name="api_key">bf9c37004d3155881b48fe54ec68024809a8e723</string>
 
-    <string name="api_host_staging">yyui</string>
-    <string name="api_host_live">yyui</string>
+    <string name="api_host_staging">http://api-stage.squeegyapp.com/</string>
+    <string name="api_host_live">http://squeegyapp.com/</string>
 
 
 </resources>

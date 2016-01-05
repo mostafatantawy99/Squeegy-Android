@@ -27,7 +27,7 @@ import com.squeegy.android.base.BaseFragment;
 import com.squeegy.android.util.AppLog;
 
 
-public class HomeFragment extends BaseFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
+public class HomeFragment extends BaseFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback,GoogleMap.OnMapLoadedCallback {
 
     protected static final String TAG = "HomeFragment";
     private GoogleMap mMap;
@@ -48,10 +48,17 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_home,container,false);
-
-        mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
-
         buildGoogleApiClient();
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                mMap.setMyLocationEnabled(true);
+                googleMap.setOnMapLoadedCallback(HomeFragment.this);
+            }
+        });
+
 
         return view;
     }
@@ -68,8 +75,9 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
                 //   Toast.makeText(this, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
                 return;
             }
-
-            mapFragment.getMapAsync(this);
+            if(mapFragment!=null) {
+                mapFragment.getMapAsync(this);
+            }
         }
     }
 
@@ -94,28 +102,8 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
-        if (mLastLocation != null) {
-            LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(15)
-                    .bearing(90)
-                    .tilt(40)
-                    .build();
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            mMap.addMarker(new MarkerOptions().position(latLng).title("My Location"));
 
-        }
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                return true;
-            }
-        });
 
 
     }
@@ -145,5 +133,29 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    @Override
+    public void onMapLoaded() {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()))      // Sets the center of the map to location user
+                .zoom(15)
+                .bearing(90)
+                .tilt(40)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("My Location"));
+
+
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return true;
+            }
+        });
     }
 }
