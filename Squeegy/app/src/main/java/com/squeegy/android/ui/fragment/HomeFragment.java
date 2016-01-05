@@ -207,6 +207,8 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
         LatLng latLng = place.getLatLng();
         Toast.makeText(getActivity(), place.getName(), Toast.LENGTH_SHORT).show();
         if (latLng != null) {
+            mCurrentLongitude = latLng.longitude;
+            mCurrentLatitude = latLng.latitude;
             mMap.clear();
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -238,14 +240,14 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
                 NearByCoords nearByCoords=mNearByCoordses.get(i);
                 double distance = distFrom(nearByCoords.getLatitude(),nearByCoords.getLongitude(),mCurrentLatitude,mCurrentLongitude);
                if(distance<=10) {
-                   mMap.addMarker(new MarkerOptions().position(new LatLng(nearByCoords.getLatitude(), nearByCoords.getLongitude())).title(""));
+                   mMap.addMarker(new MarkerOptions().position(new LatLng(nearByCoords.getLatitude(), nearByCoords.getLongitude())).title(" "+distance));
 
-                   mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                       @Override
-                       public boolean onMarkerClick(Marker marker) {
-                           return true;
-                       }
-                   });
+//                   mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                       @Override
+//                       public boolean onMarkerClick(Marker marker) {
+//                           return true;
+//                       }
+//                   });
                }
             }
         }
