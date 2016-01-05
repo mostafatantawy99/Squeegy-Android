@@ -1,9 +1,12 @@
 package com.squeegy.android.ui.fragment;
 
+import android.app.Application;
 import android.content.Context;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +24,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squeegy.android.R;
 import com.squeegy.android.base.BaseFragment;
+import com.squeegy.android.util.AppLog;
 
 
 public class HomeFragment extends BaseFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
 
+    protected static final String TAG = "HomeFragment";
     private GoogleMap mMap;
 
     /**
@@ -49,6 +54,18 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
     @Override
     public void onConnected(Bundle bundle) {
 
+        // Gets the best and most recent location currently available, which may be null
+        // in rare cases when a location is not available.
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            // Determine whether a Geocoder is available.
+            if (!Geocoder.isPresent()) {
+                //   Toast.makeText(this, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            mapFragment.getMapAsync(this);
+        }
     }
 
     @Override
@@ -60,12 +77,13 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        AppLog.v(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        AppLog.v(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
     @Override
@@ -95,6 +113,21 @@ public class HomeFragment extends BaseFragment implements GoogleApiClient.Connec
         });
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     /**
