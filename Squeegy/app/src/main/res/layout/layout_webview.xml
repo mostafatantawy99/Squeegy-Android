@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.squeegy.android.ui.widget.FsWebView
+    <com.squeegy.android.ui.widget.AppWebView
         android:id="@+id/app_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -22,7 +22,7 @@ public class TermsFragment extends BaseFragment{
 
         View view =inflater.inflate(R.layout.layout_webview,container,false);
         webView = (AppWebView) view.findViewById(R.id.app_web_view);
-        webView.loadUrl(AppConstants.URL_FAQ);
+        webView.loadUrl(AppConstants.URL_TERMS);
 
         return view;
     }
