@@ -1,5 +1,7 @@
 package com.squeegy.android.ui.activity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +100,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if(id==R.id.nav_home){
+            displayScreenByName(AppConstants.NAV_ITEM_NEARBY);
+        }else if(id==R.id.nav_faq){
+            displayScreenByName(AppConstants.NAV_ITEM_FAQ);
+        }else if(id==R.id.nav_feedback){
+            displayScreenByName(AppConstants.NAV_ITEM_FEEDBACK);
+        }else if(id==R.id.nav_hsw){
+            displayScreenByName(AppConstants.NAV_ITEM_HSW);
+        }else if(id==R.id.nav_pricing){
+            displayScreenByName(AppConstants.NAV_ITEM_PRICING);
+        }else if(id==R.id.nav_privacy){
+            displayScreenByName(AppConstants.NAV_ITEM_PP);
+        }else if(id==R.id.nav_tc){
+            displayScreenByName(AppConstants.NAV_ITEM_TC);
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -139,8 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }else if(screenName.equalsIgnoreCase(AppConstants.NAV_ITEM_FEEDBACK)){
 
-            screenFragment= SendFeedbackFragment.instantiate(getApplicationContext(), SendFeedbackFragment.class.getName(), null);
+          //  screenFragment= SendFeedbackFragment.instantiate(getApplicationContext(), SendFeedbackFragment.class.getName(), null);
 
+            sendMail();
+            return;
         }else if(screenName.equalsIgnoreCase(AppConstants.NAV_ITEM_TC)){
 
             screenFragment= TermsFragment.instantiate(getApplicationContext(), TermsFragment.class.getName(), null);
@@ -154,6 +175,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(screenFragment!=null){
             mFragmentManager.beginTransaction().replace(R.id.fragment_container, screenFragment,screenName).commitAllowingStateLoss();
         }
+    }
+
+    private void sendMail() {
+
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{AppConstants.FEEDBACK_MAIL_ID});
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Squeegy Android App Support");
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(memoryInfo);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String carrierName = manager.getNetworkOperatorName();
+
+        final String extraText = "*** Support Information ***\n" +
+                "\nAndroid OS Version: " + android.os.Build.VERSION.RELEASE + " (" + android.os.Build.VERSION.CODENAME + ")" +
+                "\nDevice: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL ;
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\n\n " + extraText);
+        startActivity(Intent.createChooser(intent, "Send feedback..."));
     }
 }
 

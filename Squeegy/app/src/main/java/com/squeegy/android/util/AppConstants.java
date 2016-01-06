@@ -17,4 +17,16 @@ public class AppConstants {
     public static final String NAV_ITEM_TC = "Terms of Service";
     public static final String NAV_ITEM_PP = "Privacy Policy";
 
+    public static final String URL_PRICING = "https://www.squeegyapp.com/pricing";
+    public static final String URL_FAQ = "https://www.squeegyapp.com/faq";
+    public static final String URL_TERMS = "https://www.squeegyapp.com/terms";
+    public static final String URL_PRIVACY = "https://www.squeegyapp.com/privacy";
+    public static final String FEEDBACK_MAIL_ID = "feedback@squeegyapp.com";
+    public static final String URL_SHARE = "https://www.squeegyapp.com/car-wash";
+    public static final String URL_PROCESS = "https://www.squeegyapp.com/#process";
+
+
+
+
+
 }

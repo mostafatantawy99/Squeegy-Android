@@ -1,53 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Profile" />
+            android:title="Profile"
+            android:checkable="true" />
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Near By"
-            android:checked="true"/>
+            android:checked="true"
+            android:checkable="true"/>
         <item
             android:id="@+id/nav_vi"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Vehical Information" />
+            android:title="Vehical Information"
+            android:checkable="true"/>
         <item
             android:id="@+id/nav_paydetails"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Payment Details" />
+            android:title="Payment Details"
+            android:checkable="true"/>
         <item
             android:id="@+id/nav_hsw"
             android:icon="@drawable/ic_menu_manage"
-            android:title="How Squeegy works" />
+            android:title="How Squeegy works"
+            android:checkable="true"/>
 
         <item
             android:id="@+id/nav_pricing"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Pricing" />
+            android:title="Pricing"
+            android:checkable="true"/>
 
         <item
             android:id="@+id/nav_faq"
             android:icon="@drawable/ic_menu_manage"
-            android:title="FAQ" />
+            android:title="FAQ"
+            android:checkable="true"/>
 
         <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Send Feedback" />
+            android:title="Send Feedback"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/nav_tc"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Terms of Service" />
+            android:title="Terms of Service"
+            android:checkable="true"/>
 
         <item
             android:id="@+id/nav_privacy"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Privacy Policy" />
+            android:title="Privacy Policy"
+            android:checkable="true"/>
     </group>
 
 
